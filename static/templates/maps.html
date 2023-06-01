@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    </head>
+    <body>
+        <div id="map-test" class="map"></div>
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=fab8378d-e145-4e8c-aa39-923203d9393f&lang=ru_RU">
+        </script>
+        <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+        <div class="card-body">
+            <form method= "POST" action ="" id="form">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button @click="addNote(newNote)" class="btn btn-primary"><i class="uil uil-notes"></i> Добавить заметку</button>
+            </form>
+        </div>
+    </body>
+</html>
