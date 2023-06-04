@@ -1,25 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="h-100">
 <head>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=fab8378d-e145-4e8c-aa39-923203d9393f&lang=ru_RU"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{% block title %} {% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
-<body>
-<div class="container-fluid header bg-dark">
-    <div class="pt-5 py-5">
-      <h1 class="display-5 fw-bold"><a href="{% url 'home' %}" style="text-decoration: none; color: #fff;"><i class="uil uil-file-edit-alt"></i> Приложение Notes</a></h1>
-             <p class="fs-5 mb-4 text-secondary">написано на Django, Django-Ninja, Alpine.js, Axios и Bootstrap</p>
+<body class="h-100">
+    <div class="container-fluid header bg-dark row">
+        <div class="pt-5 py-5 col-6">
+            <h1 class="display-5 fw-bold"><a href="{% url 'home' %}" style="text-decoration: none; color: #fff;"><i class="uil uil-file-edit-alt"></i> Приложение Notes</a></h1>
+            <p class="fs-5 mb-4 text-secondary">календарь событий</p>
+        </div>
+        {% if user.is_authenticated %}
+                <div class="d-flex align-items-center justify-content-end col">
+                    <a href="{% url 'logout' %}" class="btn btn-danger overflow-visible" style="position: absolute; height: 210px">Выход</a>
+                </div>
+        {% endif %}
     </div>
-  </div>
+    {% block content %}
 
-{% block content %}
-{% endblock %}
+    {% endblock %}
+
 </body>
 </html>

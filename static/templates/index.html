@@ -4,80 +4,62 @@
 {% endblock %}
 {% block content %}
 
-
 <div x-data="getNotes()">
-    <h3 class="text-center mt-5" style="color:#777">все заметки пользователя <span class="fw-bold">{{ request.user.username }}</span></h3>
-    <form id="note-form">
-        {% csrf_token %}
-    </form>
+    <h3 class="text-center" style="color:#777">все заметки пользователя <span class="fw-bold">{{ request.user.first_name }} {{ request.user.last_name }}</span></h3>
+    <div class="container pt-5 row">
+        <div class="input-group px-5 col-md-10 offset-md-0">
+            <a href="{% url 'create' %}"><button class="btn btn-primary"><i class="uil uil-notes"></i> Заметки на карте</button></a>
+        </div>
+    </div>
+    {% if notes %}
     <div class="container pt-5">
-        <div class="input-group px-5">
-            <a href="{% url 'create' %}"><button class="btn btn-primary"><i class="uil uil-notes"></i> Добавить заметку</button></a>
-        </div>
-    </div>
-<div class="container pt-5">
- <div class="card-group p-5">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-       <template x-for="note in notes">
-        <div class="col">
-          <div class="card h-100 bg-light mb-3">
-            <div class="card-header">
-                <button @click="removeNote(note.id)" class="btn btn-danger"><i class="uil uil-trash-alt"></i> Удалить</button></div>
-                <div class="card-body">
-                  <p x-text="note.title" class="card-text pt-3 pb-3"></p>
+    <div class="card-group p-5">
+        <div class="row my-3">
+            <template x-for="note in notes">
+                <div class="col my-3">
+                    <div class="card h-100 bg-light mb-5" style="width: 18rem;">
+                        <div class="card-header">
+                            <p x-text="note.title" class="card-text pt-3 pb-3"></p>
+                        </div>
+                        <div class="card-body">
+                            <p x-text="note.text" class="card-text pt-3 pb-3"></p>
+                        </div>
+                        <div class="card-footer">
+                            <button @click="removeNote(note.id)" class="btn btn-danger w-100"><i class="uil uil-trash-alt"></i> Удалить</button>
+                        </div>
+                    </div>
                 </div>
-         </div>
+            </template>
         </div>
-       </template>
     </div>
 </div>
-</div>
+
+
+    {% else %}
+    <div class="row row-cols-0 row-cols-md-0 g-4">
+        <p class="card-text pt-3 pb-3 text-center">Вы еще не добавили ни одной заметки</p>
+    </div>
+    {% endif %}
 </div>
 
 
 <script>
-
-const csrftoken = document.querySelector('#note-form > input').value;
-
 
 const getNotes = () => {
     return {
         newNote: '',
         notes: [
             {% for note in notes %}
-            { 'title': '{{ note.title }}', 'id': '{{ note.id }}'},
+                { 'title': '{{ note.title }}', 'text': '{{ note.text }}', 'id': {{ note.id}}},
             {% endfor %}
         ]
     }
 };
 
-const addNote = async (title, categoryId) => {
-    try {
-    const res = await axios.post('/api/notes',
-        { title, category_id: categoryId },
-        { headers: { 'X-CSRFToken': csrftoken }}
-        );
-    location.reload();
-      } catch (e) {
-        console.error(e);
-      }
-};
 
 const removeNote = async noteId => {
     try {
     const res = await axios.delete('/api/notes/' + noteId,
-        { headers: { 'X-CSRFToken': csrftoken }}
-        );
-    location.reload();
-      } catch (e) {
-        console.error(e);
-      }
-};
-
-const updateNote = async (noteId, noteStatus) => {
-    try {
-    const res = await axios.patch('/api/notes/' + noteId,
-        { id: noteId, completed: noteStatus},
         { headers: { 'X-CSRFToken': csrftoken }}
         );
     location.reload();
