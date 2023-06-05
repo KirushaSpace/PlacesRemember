@@ -4,10 +4,9 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from .formss import NoteForm
 from .models import Note
-from .views import home
 
 
-class HomeViewTest(TestCase):
+class Test(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Создаем пользователя для тестов

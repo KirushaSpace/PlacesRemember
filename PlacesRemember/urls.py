@@ -9,5 +9,5 @@ api.add_router('/', router)
 urlpatterns = [
     path('', include('service.urls')),
     path('admin/', admin.site.urls),
-    path('api/', api.urls)
+    path('api/', api.urls, name='api')
 ]
