@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
-from service.api import api
+from ninja import NinjaAPI
+from service.api import router
+
+api = NinjaAPI()
+api.add_router('/', router)
 
 urlpatterns = [
     path('', include('service.urls')),
