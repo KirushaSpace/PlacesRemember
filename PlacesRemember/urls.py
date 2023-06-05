@@ -11,3 +11,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api.urls, name='api')
 ]
+
+handler404 = "service.views.page_not_found_view"

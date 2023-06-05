@@ -5,15 +5,18 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 
+def page_not_found_view(request, exception):
+    return redirect('login')
 
-@login_required
+
+@login_required(login_url='/login')
 def home(request):
     return render(request, 'index.html', {
         'notes': Note.objects.filter(user=request.user)
     })
 
 
-@login_required
+@login_required(login_url='/login')
 def create_note(request):
     note = NoteForm
     if request.method == 'POST':
@@ -37,7 +40,7 @@ def user_login(request):
     return render(request, 'login.html')
 
 
-@login_required
+@login_required(login_url='/login')
 def user_logout(request):
     logout(request)
     return redirect('login')
