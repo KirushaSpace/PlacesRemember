@@ -5,7 +5,9 @@
 {% block content %}
 
 <div x-data="getNotes()">
-    <h3 class="text-center" style="color:#777">все заметки пользователя <span class="fw-bold">{{ request.user.first_name }} {{ request.user.last_name }}</span></h3>
+    <form id="note-form">
+        {% csrf_token %}
+    </form>
     <div class="container pt-5 row">
         <div class="input-group px-5 col-md-10 offset-md-0">
             <a href="{% url 'create' %}"><button class="btn btn-primary"><i class="uil uil-notes"></i> Заметки на карте</button></a>
@@ -36,7 +38,7 @@
 
 
     {% else %}
-    <div class="row row-cols-0 row-cols-md-0 g-4">
+    <div class="text-center">
         <p class="card-text pt-3 pb-3 text-center">Вы еще не добавили ни одной заметки</p>
     </div>
     {% endif %}
@@ -44,6 +46,8 @@
 
 
 <script>
+
+const csrftoken = document.querySelector('#note-form > input').value;
 
 const getNotes = () => {
     return {
